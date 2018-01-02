@@ -14,7 +14,6 @@
     left: 0;
     position: absolute;
     top: 0;
-    z-index: 1000 !important;
   }
   .pie-wrapper .pie .half-circle {
     height: 100%;
@@ -29,17 +28,17 @@
   .pie-wrapper .label {
     background: #34495e;
     border-radius: 50%;
-    bottom: 0.4em;
+    bottom: 0.3em;
     color: #ecf0f1;
     cursor: default;
     display: block;
     font-size: 0.3em;
-    left: 0.4em;
+    left: 0.35em;
     line-height: 2.6em;
     position: absolute;
-    right: 0.4em;
+    right: 0.33em;
     text-align: center;
-    top: 0.4em;
+    top: 0.33em;
   }
   .pie-wrapper .label .smaller {
     color: #bdc3c7;

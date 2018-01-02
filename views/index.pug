@@ -13,43 +13,59 @@ html
             a(href="#").navbar-brand="KiBOT" 
                 small.text-muted=" ver " + version
         .container-fluid
-            .row
-                .col-sm-2
-                .col-sm-2.text-center
-                    .btn-group-vertical#statusBtnGroup
-                        button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
-                        button.btn.btn-danger.btn-block#statusBtnStop="STOP"
-                    
-                .col-sm-6
-                    .card
-                        .card-body
-                            .row.align-items-center.text-center
-                                .col
-                                    .pie-wrapper.progress-70
-                                        span.label="10"
-                                        .pie
-                                            .left-side.half-circle
-                                            .right-side.half-circle
-                                .col
-                                    h1="Minutes Left"
+            .row.justify-content-md-center
+                .col-md-8
+                    .row
+                        .col-md-4.text-center
+                            .btn-group-vertical#statusBtnGroup
+                                button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
+                                button.btn.btn-danger.btn-block#statusBtnStop="STOP"
+                        .col-md-8
+                            .card.is-idle.d-none
+                                .card-body
+                                    .row.align-items-center.text-center
+                                        .col="RUN"
+                            .card.is-running
+                                .card-body
+                                    .row.align-items-center.text-center
+                                        .col
+                                            .pie-wrapper.progress-70
+                                                span.label="10"
+                                                .pie
+                                                    .left-side.half-circle
+                                                    .right-side.half-circle
+                                        .col
+                                            h1="Minutes Left"
             .row.justify-content-md-center.align-items-center
-                .col-sm-8
+                .col-md-8
                     button.btn.btn-block.btn-primary(data-toggle="collapse", data-target="#advancedOptionsCollapse")="Advanced options"
             .row.justify-content-md-center
-                .col-sm-8
+                .col-md-8
                     .collapse#advancedOptionsCollapse
                         .row
-                            .col-sm-4
-                                .card
-                                    .card-body.text-center
-                                        .btn-group
-                                            button.btn.btn-primary(data-toggle="button")="Alt+Tab Enabled"
-                            .col-sm-4
+                            .col-xl-4
+                                ul.list-group
+                                    li.list-group-item.active.text-center="Enable window alternation"
+                                    li.list-group-item.text-center
+                                        .input-group
+                                            .input-group-prepend
+                                                button.btn.btn-primary="Enabled"
+                                            .input-group-append
+                                                button.btn.btn-outline-secondary.disabled="Disabled"
+                            .col-xl-4
                                 ul.list-group
                                     li.list-group-item.active.text-center="Custom Browser Title"
                                     li.list-group-item
-                                        .input-group.mb-3
+                                        .input-group
                                             input.form-control(placeholder="Add custom title")
                                             .input-group-append
                                                 button.btn.btn-outline-primary="Add"
                                     li.list-group-item="Development"
+                            .col-xl-4
+                                ul.list-group
+                                    li.list-group-item.active.text-center="Custom Key to Press"
+                                    li.list-group-item
+                                        .input-group
+                                            input.form-control.text-center(disabled,value="CONTROL")
+                                            .input-group-append
+                                                button.btn.btn-primary="SET KEY"
