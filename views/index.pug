@@ -16,16 +16,46 @@ html
             .row.justify-content-md-center
                 .col-md-8
                     .row
-                        .col-md-4.text-center
+                        .col-md-3.text-center
                             .btn-group-vertical#statusBtnGroup
                                 button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
                                 button.btn.btn-danger.btn-block#statusBtnStop="STOP"
-                        .col-md-8
-                            .card.is-idle.d-none
+                        .col-md-9
+                            .card.is-idle
                                 .card-body
                                     .row.align-items-center.text-center
-                                        .col="RUN"
-                            .card.is-running
+                                        .col
+                                            h3="Set the amount of time"
+                                    .row.align-items-center.text-center
+                                        .col
+                                            .btn-group.btn-group-toggle(data-toggle="buttons")
+                                                label.btn.btn-outline-primary.active="10 min"
+                                                    input#10minbutton(type="radio", name="minutesToSet", checked)
+                                                label.btn.btn-outline-primary="30 min"
+                                                    input#30minbutton(type="radio", name="minutesToSet")
+                                                label.btn.btn-outline-primary="60 min"
+                                                    input#60minbutton(type="radio", name="minutesToSet")
+                                                label.btn.btn-outline-primary="infinite"
+                                                    input#infiniteminbutton(type="radio", name="minutesToSet")
+                                                //- label.btn.btn-outline-primary="custom"
+                                                //-     input#infiniteminbutton(type="radio", name="minutesToSet")
+                                                button.btn.btn-outline-primary(data-toggle="collapse", data-target="#customMinutesCollapse")="Custom"
+                                                    input#infiniteminbutton(type="radio", name="minutesToSet")
+                                    .row
+                                        .col
+                                            .collapse#customMinutesCollapse
+                                                .row
+                                                    .col-sm-3
+                                                    .col-sm-6
+                                                        .input-group(style="margin-top:15px;")
+                                                            input.form-control(placeholder="Add custom time")
+                                                            .input-group-append
+                                                                //- button.btn.btn-outline-primary="Add"
+                                                                select.btn.btn-outline-primary.custom-select
+                                                                    option(value="0" selected)="Minutes"
+                                                                    option(value="0")="Hours"
+                                                    
+                            .card.is-running.d-none
                                 .card-body
                                     .row.align-items-center.text-center
                                         .col
@@ -47,11 +77,11 @@ html
                                 ul.list-group
                                     li.list-group-item.active.text-center="Enable window alternation"
                                     li.list-group-item.text-center
-                                        .input-group
-                                            .input-group-prepend
-                                                button.btn.btn-primary="Enabled"
-                                            .input-group-append
-                                                button.btn.btn-outline-secondary.disabled="Disabled"
+                                        .btn-group.btn-group-toggle(data-toggle="buttons")
+                                            label.btn.btn-outline-primary.active="enabled"
+                                                input#enabledAltTab(type="radio", name="enableAltTab", checked)
+                                            label.btn.btn-outline-primary="disabled"
+                                                input#enabledAlt(type="radio", name="enableAltTab")
                             .col-xl-4
                                 ul.list-group
                                     li.list-group-item.active.text-center="Custom Browser Title"

@@ -14,9 +14,24 @@
     }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
     #statusBtnStart {
         width: 160px;
         height: 100px;
     }
+}
+
+@media screen and (max-width: 1000px) {
+    #statusBtnStart {
+        width: 120px;
+        height: 100px;
+    }
+}
+
+
+.btn.active {
+    box-shadow: none !important;
+}
+.btn-outline-primary.active, .btn-outline-primary:active {
+    color: white !important;
 }
