@@ -21,7 +21,7 @@ html
                                 button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
                                 button.btn.btn-danger.btn-block#statusBtnStop="STOP"
                         .col-md-9
-                            .card.is-idle
+                            .card.is-idle.d-none
                                 .card-body
                                     .row.align-items-center.text-center
                                         .col
@@ -55,7 +55,7 @@ html
                                                                     option(value="0" selected)="Minutes"
                                                                     option(value="0")="Hours"
                                                     
-                            .card.is-running.d-none
+                            .card.is-running
                                 .card-body
                                     .row.align-items-center.text-center
                                         .col
@@ -74,28 +74,32 @@ html
                     .collapse#advancedOptionsCollapse
                         .row
                             .col-xl-4
+                                .row
+                                    .col-xl-12
+                                        ul.list-group
+                                            li.list-group-item.active.text-center="Enable window autoclick"
+                                            li.list-group-item.text-center
+                                                .btn-group.btn-group-toggle(data-toggle="buttons")
+                                                    label.btn.btn-outline-primary.active="enabled"
+                                                        input#enabledAltTab(type="radio", name="enableAutoClick", checked)
+                                                    label.btn.btn-outline-primary="disabled"
+                                                        input#enabledAlt(type="radio", name="enableAutoClick")
+                                .row
+                                    .col-xl-12
+                                        ul.list-group
+                                            li.list-group-item.active.text-center="Custom Key to Press"
+                                            li.list-group-item
+                                                .input-group
+                                                    input.form-control.text-center(disabled,value="CONTROL")
+                                                    .input-group-append
+                                                        button.btn.btn-primary="SET KEY"
+                            .col-xl-8
                                 ul.list-group
-                                    li.list-group-item.active.text-center="Enable window alternation"
-                                    li.list-group-item.text-center
-                                        .btn-group.btn-group-toggle(data-toggle="buttons")
-                                            label.btn.btn-outline-primary.active="enabled"
-                                                input#enabledAltTab(type="radio", name="enableAltTab", checked)
-                                            label.btn.btn-outline-primary="disabled"
-                                                input#enabledAlt(type="radio", name="enableAltTab")
-                            .col-xl-4
-                                ul.list-group
-                                    li.list-group-item.active.text-center="Custom Browser Title"
+                                    li.list-group-item.active.text-center="Customize Window Process"
                                     li.list-group-item
                                         .input-group
-                                            input.form-control(placeholder="Add custom title")
+                                            input.form-control(placeholder="Add custom process title")
+                                            input.form-control(placeholder="Custom window title")
                                             .input-group-append
                                                 button.btn.btn-outline-primary="Add"
                                     li.list-group-item="Development"
-                            .col-xl-4
-                                ul.list-group
-                                    li.list-group-item.active.text-center="Custom Key to Press"
-                                    li.list-group-item
-                                        .input-group
-                                            input.form-control.text-center(disabled,value="CONTROL")
-                                            .input-group-append
-                                                button.btn.btn-primary="SET KEY"
