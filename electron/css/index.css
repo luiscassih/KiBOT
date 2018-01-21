@@ -48,7 +48,6 @@ body {
 
 /* Electron */
 
-
 /* Scroll-wrapper */
 
 .scroll-wrapper {
@@ -61,12 +60,10 @@ body {
     background-color: #343a40;
 }
  
-/* Track */
 .scroll-wrapper::-webkit-scrollbar-track {
     margin: 25px 0 25px 0;
 }
  
-/* Handle */
 .scroll-wrapper::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
