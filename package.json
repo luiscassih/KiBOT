@@ -9,8 +9,12 @@
   "author": "Luis Cassih",
   "license": "MIT",
   "dependencies": {
+    "electron-pug": "^1.5.1",
     "express": "^4.15.4",
     "pug": "^2.0.0-rc.3",
     "robotjs": "^0.4.7"
+  },
+  "devDependencies": {
+    "electron": "^1.8.1"
   }
 }

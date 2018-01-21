@@ -1,0 +1,39 @@
+[class*='col-'] {
+    margin-bottom: 15px;
+}
+body {
+    background-color: red;
+}
+#statusBtnStart {
+    width: 250px;
+    height: 120px;
+}
+
+@media screen and (max-width: 1600px) {
+    #statusBtnStart {
+        width: 180px;
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    #statusBtnStart {
+        width: 160px;
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    #statusBtnStart {
+        width: 120px;
+        height: 100px;
+    }
+}
+
+
+.btn.active {
+    box-shadow: none !important;
+}
+.btn-outline-primary.active, .btn-outline-primary:active {
+    color: white !important;
+}

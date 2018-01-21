@@ -13,6 +13,17 @@
             "args": [
                 "8090" // Port
             ]
+        },
+        {
+            "name": "Debug Main Process",
+            "type": "node", 
+            "request": "launch",
+            "cdw": "${workspaceFolder}",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+            "program": "${workspaceFolder}/app.js",
+            "args": [
+                "--port", "8090" // Port
+            ]
         }
     ]
 }

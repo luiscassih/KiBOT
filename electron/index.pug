@@ -5,13 +5,13 @@ html
         link(rel="stylesheet", href="lib/bootstrap/css/bootstrap.min.css")
         link(rel="stylesheet", href="css/index.css")
         link(rel="stylesheet", href="css/progress-circle.css")
-        script(src="lib/jquery-3.2.1.min.js")
+        script(src="lib/jquery-3.2.1.min.js",onload="window.$ = window.jQuery = module.exports;")
         script(src="lib/popper-1.12.9.min.js")
         script(src="lib/bootstrap/js/bootstrap.min.js")
     body.bg-dark
         nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
             a(href="#").navbar-brand="KiBOT" 
-                small.text-muted=" ver " + version
+                small.text-muted=" ver "
         .container-fluid
             .row.justify-content-md-center
                 .col-md-8
@@ -66,3 +66,40 @@ html
                                                     .right-side.half-circle
                                         .col
                                             h1="Minutes Left"
+            .row.justify-content-md-center.align-items-center
+                .col-md-8
+                    button.btn.btn-block.btn-primary(data-toggle="collapse", data-target="#advancedOptionsCollapse")="Advanced options"
+            .row.justify-content-md-center
+                .col-md-8
+                    .collapse#advancedOptionsCollapse
+                        .row
+                            .col-xl-4
+                                .row
+                                    .col-xl-12
+                                        ul.list-group
+                                            li.list-group-item.active.text-center="Enable window autoclick"
+                                            li.list-group-item.text-center
+                                                .btn-group.btn-group-toggle(data-toggle="buttons")
+                                                    label.btn.btn-outline-primary.active="enabled"
+                                                        input#enabledAltTab(type="radio", name="enableAutoClick", checked)
+                                                    label.btn.btn-outline-primary="disabled"
+                                                        input#enabledAlt(type="radio", name="enableAutoClick")
+                                .row
+                                    .col-xl-12
+                                        ul.list-group
+                                            li.list-group-item.active.text-center="Custom Key to Press"
+                                            li.list-group-item
+                                                .input-group
+                                                    input.form-control.text-center(disabled,value="CONTROL")
+                                                    .input-group-append
+                                                        button.btn.btn-primary="SET KEY"
+                            .col-xl-8
+                                ul.list-group
+                                    li.list-group-item.active.text-center="Customize Window Process"
+                                    li.list-group-item
+                                        .input-group
+                                            input.form-control(placeholder="Add custom process title")
+                                            input.form-control(placeholder="Custom window title")
+                                            .input-group-append
+                                                button.btn.btn-outline-primary="Add"
+                                    li.list-group-item="Development"
