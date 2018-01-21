@@ -12,94 +12,95 @@ html
         nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
             a(href="#").navbar-brand="KiBOT" 
                 small.text-muted=" ver "
-        .container-fluid
-            .row.justify-content-md-center
-                .col-md-8
-                    .row
-                        .col-md-3.text-center
-                            .btn-group-vertical#statusBtnGroup
-                                button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
-                                button.btn.btn-danger.btn-block#statusBtnStop="STOP"
-                        .col-md-9
-                            .card.is-idle.d-none
-                                .card-body
-                                    .row.align-items-center.text-center
-                                        .col
-                                            h3="Set the amount of time"
-                                    .row.align-items-center.text-center
-                                        .col
-                                            .btn-group.btn-group-toggle(data-toggle="buttons")
-                                                label.btn.btn-outline-primary.active="10 min"
-                                                    input#10minbutton(type="radio", name="minutesToSet", checked)
-                                                label.btn.btn-outline-primary="30 min"
-                                                    input#30minbutton(type="radio", name="minutesToSet")
-                                                label.btn.btn-outline-primary="60 min"
-                                                    input#60minbutton(type="radio", name="minutesToSet")
-                                                label.btn.btn-outline-primary="infinite"
-                                                    input#infiniteminbutton(type="radio", name="minutesToSet")
-                                                //- label.btn.btn-outline-primary="custom"
-                                                //-     input#infiniteminbutton(type="radio", name="minutesToSet")
-                                                button.btn.btn-outline-primary(data-toggle="collapse", data-target="#customMinutesCollapse")="Custom"
-                                                    input#infiniteminbutton(type="radio", name="minutesToSet")
-                                    .row
-                                        .col
-                                            .collapse#customMinutesCollapse
-                                                .row
-                                                    .col-sm-3
-                                                    .col-sm-6
-                                                        .input-group(style="margin-top:15px;")
-                                                            input.form-control(placeholder="Add custom time")
-                                                            .input-group-append
-                                                                //- button.btn.btn-outline-primary="Add"
-                                                                select.btn.btn-outline-primary.custom-select
-                                                                    option(value="0" selected)="Minutes"
-                                                                    option(value="0")="Hours"
-                                                    
-                            .card.is-running
-                                .card-body
-                                    .row.align-items-center.text-center
-                                        .col
-                                            .pie-wrapper.progress-70
-                                                span.label="10"
-                                                .pie
-                                                    .left-side.half-circle
-                                                    .right-side.half-circle
-                                        .col
-                                            h1="Minutes Left"
-            .row.justify-content-md-center.align-items-center
-                .col-md-8
-                    button.btn.btn-block.btn-primary(data-toggle="collapse", data-target="#advancedOptionsCollapse")="Advanced options"
-            .row.justify-content-md-center
-                .col-md-8
-                    .collapse#advancedOptionsCollapse
+        .main-container.scroll-wrapper
+            .container-fluid
+                .row.justify-content-md-center
+                    .col-md-8
                         .row
-                            .col-xl-4
-                                .row
-                                    .col-xl-12
-                                        ul.list-group
-                                            li.list-group-item.active.text-center="Enable window autoclick"
-                                            li.list-group-item.text-center
+                            .col-md-3.text-center
+                                .btn-group-vertical#statusBtnGroup
+                                    button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
+                                    button.btn.btn-danger.btn-block#statusBtnStop="STOP"
+                            .col-md-9
+                                .card.is-idle.d-none
+                                    .card-body
+                                        .row.align-items-center.text-center
+                                            .col
+                                                h3="Set the amount of time"
+                                        .row.align-items-center.text-center
+                                            .col
                                                 .btn-group.btn-group-toggle(data-toggle="buttons")
-                                                    label.btn.btn-outline-primary.active="enabled"
-                                                        input#enabledAltTab(type="radio", name="enableAutoClick", checked)
-                                                    label.btn.btn-outline-primary="disabled"
-                                                        input#enabledAlt(type="radio", name="enableAutoClick")
-                                .row
-                                    .col-xl-12
-                                        ul.list-group
-                                            li.list-group-item.active.text-center="Custom Key to Press"
-                                            li.list-group-item
-                                                .input-group
-                                                    input.form-control.text-center(disabled,value="CONTROL")
-                                                    .input-group-append
-                                                        button.btn.btn-primary="SET KEY"
-                            .col-xl-8
-                                ul.list-group
-                                    li.list-group-item.active.text-center="Customize Window Process"
-                                    li.list-group-item
-                                        .input-group
-                                            input.form-control(placeholder="Add custom process title")
-                                            input.form-control(placeholder="Custom window title")
-                                            .input-group-append
-                                                button.btn.btn-outline-primary="Add"
-                                    li.list-group-item="Development"
+                                                    label.btn.btn-outline-primary.active="10 min"
+                                                        input#10minbutton(type="radio", name="minutesToSet", checked)
+                                                    label.btn.btn-outline-primary="30 min"
+                                                        input#30minbutton(type="radio", name="minutesToSet")
+                                                    label.btn.btn-outline-primary="60 min"
+                                                        input#60minbutton(type="radio", name="minutesToSet")
+                                                    label.btn.btn-outline-primary="infinite"
+                                                        input#infiniteminbutton(type="radio", name="minutesToSet")
+                                                    //- label.btn.btn-outline-primary="custom"
+                                                    //-     input#infiniteminbutton(type="radio", name="minutesToSet")
+                                                    button.btn.btn-outline-primary(data-toggle="collapse", data-target="#customMinutesCollapse")="Custom"
+                                                        input#infiniteminbutton(type="radio", name="minutesToSet")
+                                        .row
+                                            .col
+                                                .collapse#customMinutesCollapse
+                                                    .row
+                                                        .col-sm-3
+                                                        .col-sm-6
+                                                            .input-group(style="margin-top:15px;")
+                                                                input.form-control(placeholder="Add custom time")
+                                                                .input-group-append
+                                                                    //- button.btn.btn-outline-primary="Add"
+                                                                    select.btn.btn-outline-primary.custom-select
+                                                                        option(value="0" selected)="Minutes"
+                                                                        option(value="0")="Hours"
+                                                        
+                                .card.is-running
+                                    .card-body
+                                        .row.align-items-center.text-center
+                                            .col
+                                                .pie-wrapper.progress-70
+                                                    span.label="10"
+                                                    .pie
+                                                        .left-side.half-circle
+                                                        .right-side.half-circle
+                                            .col
+                                                h1="Minutes Left"
+                .row.justify-content-md-center.align-items-center
+                    .col-md-8
+                        button.btn.btn-block.btn-primary(data-toggle="collapse", data-target="#advancedOptionsCollapse")="Advanced options"
+                .row.justify-content-md-center
+                    .col-md-8
+                        .collapse#advancedOptionsCollapse
+                            .row
+                                .col-xl-4
+                                    .row
+                                        .col-xl-12
+                                            ul.list-group
+                                                li.list-group-item.active.text-center="Enable window autoclick"
+                                                li.list-group-item.text-center
+                                                    .btn-group.btn-group-toggle(data-toggle="buttons")
+                                                        label.btn.btn-outline-primary.active="enabled"
+                                                            input#enabledAltTab(type="radio", name="enableAutoClick", checked)
+                                                        label.btn.btn-outline-primary="disabled"
+                                                            input#enabledAlt(type="radio", name="enableAutoClick")
+                                    .row
+                                        .col-xl-12
+                                            ul.list-group
+                                                li.list-group-item.active.text-center="Custom Key to Press"
+                                                li.list-group-item
+                                                    .input-group
+                                                        input.form-control.text-center(disabled,value="CONTROL")
+                                                        .input-group-append
+                                                            button.btn.btn-primary="SET KEY"
+                                .col-xl-8
+                                    ul.list-group
+                                        li.list-group-item.active.text-center="Customize Window Process"
+                                        li.list-group-item
+                                            .input-group
+                                                input.form-control(placeholder="Add custom process title")
+                                                input.form-control(placeholder="Custom window title")
+                                                .input-group-append
+                                                    button.btn.btn-outline-primary="Add"
+                                        li.list-group-item="Development"

@@ -2,7 +2,14 @@
     margin-bottom: 15px;
 }
 body {
-    background-color: red;
+    overflow: hidden;
+}
+.main-container {
+    height: 100%;
+    padding-top: 50px;
+}
+.navbar {
+    position: fixed;
 }
 #statusBtnStart {
     width: 250px;
@@ -36,4 +43,38 @@ body {
 }
 .btn-outline-primary.active, .btn-outline-primary:active {
     color: white !important;
+}
+
+
+/* Electron */
+
+
+/* Scroll-wrapper */
+
+.scroll-wrapper {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+    width: 12px;
+    background-color: #343a40;
+}
+ 
+/* Track */
+.scroll-wrapper::-webkit-scrollbar-track {
+    margin: 25px 0 25px 0;
+}
+ 
+/* Handle */
+.scroll-wrapper::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #343a40; 
+}
+.scroll-wrapper::-webkit-scrollbar-thumb:window-inactive {
+	background: #343a40; 
+}
+.scroll-wrapper:hover::-webkit-scrollbar-thumb {
+    background: #292e33;
 }
