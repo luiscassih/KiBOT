@@ -1,35 +1,28 @@
-module.exports.controller = function(app) {
+module.exports.controller = function(app, api) {
     var robot = require("robotjs");
-    var TypingStatus = {
-        "IDLE" : 0,
-        "TYPING" : 1,
-        "PAUSED" : 2
-    }
-    var currentStatus = TypingStatus.IDLE;
-    console.log("type.js controller loaded");
 
     app.get("/api/start", (req, res) => {
         res.send("Usage: /api/type/:minutes_to_type");
     });
 
     app.get("/api/start/:minutes", (req, res) => {
-        switch (currentStatus) {
-            case TypingStatus.TYPING:
-                currentStatus = TypingStatus.IDLE;
+        switch (api.getCurrentStatus()) {
+            case api.TypingStatus.TYPING:
+                api.setCurrentStatus(api.TypingStatus.IDLE)
                 res.send("Stopped.");
                 break;    
-            case TypingStatus.IDLE:
+            case api.TypingStatus.IDLE:
                 if (!isNaN(req.params.minutes) && parseInt(req.params.minutes) > 0){
                     // currentStatus = TypingStatus.TYPING;
                     // startTyping(parseInt(req.params.minutes));
-                    startTyping();
+                    api.start()
                     // res.send("Ok, setting to " + parseInt(req.params.minutes) + " minutes.");
                     res.send("Started typing.");
                 } else {
                     res.send("number??");
                 }
                 break;
-            case TypingStatus.PAUSED:
+            case api.TypingStatus.PAUSED:
                 res.send("It's paused.");
                 break;
             default:
@@ -51,62 +44,37 @@ module.exports.controller = function(app) {
     });
     
     app.get("/api/stop", (req, res) => {
-        currentStatus = TypingStatus.IDLE;
+        api.setCurrentStatus(TypingStatus.IDLE)
         res.send("Stopped.");
     });
 
     app.get("/api/pause", (req, res) => {
-        currentStatus = TypingStatus.PAUSED;
+        api.setCurrentStatus(TypingStatus.PAUSED)
         res.send("Paused. To resume go to /api/resume.");
     });
 
     app.get("/api/resume", (req, res) => {
-        switch (currentStatus) {
-            case TypingStatus.IDLE:
+        switch (api.getCurrentStatus()) {
+            case api.TypingStatus.IDLE:
                 res.send("It's already stopped. Go to /api/type to start.");
                 break;
-            case TypingStatus.TYPING:
+            case api.TypingStatus.TYPING:
                 res.send("It's already typing. Go to /api/pause or /api/stop.");
                 break;
-            case TypingStatus.PAUSED:
-                currentStatus = TypingStatus.TYPING;
+            case api.TypingStatus.PAUSED:
+                api.setCurrentStatus(TypingStatus.TYPING)
                 res.send("Resumed.");
         }
     });
 
     app.get("/api/status", function(req, res) {
         var status = {
-            status: currentStatus,
-            statusName: Object.keys(TypingStatus).find(k => TypingStatus[k] === currentStatus)
+            status: api.getCurrentStatus(),
+            statusName: Object.keys(api.TypingStatus).find(k => api.TypingStatus[k] === api.getCurrentStatus())
         }
         res.set("content-type", "application/json");
         res.send(status);
     });
 
-    async function startTyping() {
-        console.log("started typing");
-        currentStatus = TypingStatus.TYPING;
-        while (currentStatus == TypingStatus.TYPING) {
-            var clicksThisMinute = Math.floor( Math.random() * (40 - 10) + 10 );
-            console.log("clicking " + clicksThisMinute + " this minute");
-            for (var j = 0; j<clicksThisMinute; j++) {
-                // console.log("Pressing a key, where j: " + ja);
-                // robot.typeString("a")
-                // robot.keyTap("control");
-                if (currentStatus == TypingStatus.IDLE) {
-                    break;
-                }
-                robot.typeString("a");
-                await sleep(60000/clicksThisMinute);
-            }
-        }
-        currentStatus = TypingStatus.IDLE;
-        console.log("stopped typing");
-    }
-
-    function sleep(ms) {
-        return new Promise(r => {
-            setTimeout(r, ms);
-        });
-    }
+    
 }

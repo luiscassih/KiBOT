@@ -8,6 +8,7 @@ html
         script(src="lib/jquery-3.2.1.min.js",onload="window.$ = window.jQuery = module.exports;")
         script(src="lib/popper-1.12.9.min.js")
         script(src="lib/bootstrap/js/bootstrap.min.js")
+        script(src="js/index.js")
     body.bg-dark
         nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
             a(href="#").navbar-brand="KiBOT" 
@@ -20,9 +21,9 @@ html
                             .col-md-3.text-center
                                 .btn-group-vertical#statusBtnGroup
                                     button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
-                                    button.btn.btn-danger.btn-block#statusBtnStop="STOP"
+                                    button.btn.btn-danger.btn-block#statusBtnStop(disabled)="STOP"
                             .col-md-9
-                                .card.is-idle.d-none
+                                .card.is-idle
                                     .card-body
                                         .row.align-items-center.text-center
                                             .col
