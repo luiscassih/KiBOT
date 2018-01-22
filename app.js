@@ -5,7 +5,7 @@ var path = require("path");
 const electron = require('electron');
 const {ipcMain} = require('electron');
 const pug = require("pug");
-var robot = require("robotjs");
+// var robot = require("robotjs");
 
 const locals = {
     version: "0.2.0"
@@ -30,7 +30,11 @@ app.use(express.static("public"));
 
 // Loading API controllers
 var apiCore = require("./api/apiCore");
-var api = new apiCore();
+var that = {
+    sendMinutesLeft: sendMinutesLeft
+}
+var api = new apiCore(that);
+
 var apiRest = require("./api/apiRest");
 var index = require("./controllers/index");
 apiRest.controller(app, api);
@@ -45,22 +49,23 @@ app.listen(app.get("port"), function(){
 
 
 // Starting Electron
-let win;
-function createWindow() {
-    var windowOptions = {
+var win 
+electron.app.on("ready", function() {
+    let windowOptions = {
         width: 840,
         minWidth: 480,
         height: 730,
-        title: "KiBOT"
-      }
+        title: "KiBOT",
+        center: true,
+        titleBarStyle: "hidden"
+    }
     win = new BrowserWindow(windowOptions);
     win.loadURL(url.format({
         pathname: path.join(__dirname, "electron/index.pug"),
         protocol: "file:",
         slashes: true
     }));
-}
-electron.app.on("ready", createWindow);
+});
 
 // ipc listeners
 ipcMain.on("action", (event, args) => {
@@ -68,9 +73,22 @@ ipcMain.on("action", (event, args) => {
     switch(data["action"]) {
         case "start" : {
             if (api.getCurrentStatus() != api.TypingStatus.TYPING) {
-                api.start()
-                event.sender.send("setStatus", {status: api.getCurrentStatus()})
-            }  else console.log("Already started")
+                let minutes = data["minutes"]
+                console.log("Status?? " + api.getCurrentStatus())
+
+                // So let's begin
+                api.start(minutes, true)
+
+                event.sender.send("setStatus", {status: api.getCurrentStatus(), minutes: api.getMinutesLeft()})
+            } else console.log("Already started")
+            break
+        }
+        case "pause" : {
+            if (api.getCurrentStatus() == api.TypingStatus.TYPING) {
+                console.log("Paused")
+                api.setCurrentStatus(api.TypingStatus.PAUSED)
+                event.sender.send("setStatus", {status: api.getCurrentStatus(), minutes: api.getMinutesLeft()})
+            } else console.log("Needs to be running to pause")
             break
         }
         case "stop" : { 
@@ -87,3 +105,7 @@ ipcMain.on("action", (event, args) => {
         }
     }
 })
+
+function sendMinutesLeft(minutes) {
+    win.webContents.send("updateMinutes", minutes)
+}

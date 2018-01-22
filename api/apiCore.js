@@ -1,43 +1,78 @@
-module.exports = function() {
+module.exports = function(that) {
+    var robot = require("robotjs");
     this.TypingStatus = {
         "IDLE" : 0,
         "TYPING" : 1,
         "PAUSED" : 2
     }
     var currentStatus = this.TypingStatus.IDLE
-    this.start = async () => {
-        console.log("started typing");
+    var minutesLeft = 0;
+    var feedback = false
+
+    this.start = async (minutes, feedback) => {
+        console.log("started typing for " + minutes + " minutes");
+
+        if (!isNaN(minutes)) {
+            if(minutes == -1) 
+                minutesLeft = -1
+            else if(minutes !=0)
+                minutesLeft = ++minutes
+        }
+
         currentStatus = this.TypingStatus.TYPING;
-        // while (currentStatus == TypingStatus.TYPING) {
-        //     var clicksThisMinute = Math.floor( Math.random() * (40 - 10) + 10 );
-        //     console.log("clicking " + clicksThisMinute + " this minute");
-        //     for (var j = 0; j<clicksThisMinute; j++) {
-        //         // console.log("Pressing a key, where j: " + ja);
-        //         // robot.typeString("a")
-        //         // robot.keyTap("control");
-        //         if (currentStatus == TypingStatus.IDLE) {
-        //             break;
-        //         }
-        //         robot.typeString("a");
-        //         await sleep(60000/clicksThisMinute);
-        //     }
-        // }
-        // currentStatus = TypingStatus.IDLE;
-        // console.log("stopped typing");
+        while (currentStatus == this.TypingStatus.TYPING) {
+            if (minutesLeft != -1) {
+                minutesLeft--
+            } 
+
+            // Send the minutes left to update the progress circle
+            if (that != undefined && that.sendMinutesLeft != undefined && minutesLeft != -1)
+                that.sendMinutesLeft(minutesLeft)
+
+            var clicksThisMinute = Math.floor( Math.random() * (40 - 10) + 10 );
+            console.log("clicking " + clicksThisMinute + " this minute");
+            for (var j = 0; j<clicksThisMinute; j++) {
+                if (currentStatus != this.TypingStatus.TYPING || minutesLeft == 0) {
+                    if(currentStatus == this.TypingStatus.PAUSED && minutesLeft != 0)
+                        minutesLeft++
+                    break;
+                }
+                // robot.keyTap("control");
+                robot.typeString("a");
+
+                /* We still have a bug with this sleep, if the user pause and resume several times
+                in a really short lapse of time while this is sleeping it will cause to re-write the
+                status and have multiple instances of typing, so it will type really fast
+                */
+                await this.sleep(60000/clicksThisMinute);
+            }
+            
+        }
+
+        if (minutesLeft == 0) {
+            console.log("asdasd")
+            currentStatus = this.TypingStatus.IDLE;
+        }
+
+        console.log("stopped typing");
     }
 
     this.sleep = (ms) => {
         return new Promise(r => {
-            setTimeout(r, ms);
-        });
+            setTimeout(r, ms)
+        })
     }
 
     this.getCurrentStatus = () => {
-        return currentStatus;
+        return currentStatus
     }
 
     this.setCurrentStatus = (status) => {
-        currentStatus = status;
+        currentStatus = status
+    }
+
+    this.getMinutesLeft = () => {
+        return minutesLeft
     }
 }
 

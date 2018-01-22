@@ -20,7 +20,7 @@ html
                         .row
                             .col-md-3.text-center
                                 .btn-group-vertical#statusBtnGroup
-                                    button.btn.btn-success.btn-block#statusBtnStart="RUNNING"
+                                    button.btn.btn-success.btn-block#statusBtnStart="RUN"
                                     button.btn.btn-danger.btn-block#statusBtnStop(disabled)="STOP"
                             .col-md-9
                                 .card.is-idle
@@ -30,39 +30,34 @@ html
                                                 h3="Set the amount of time"
                                         .row.align-items-center.text-center
                                             .col
-                                                .btn-group.btn-group-toggle(data-toggle="buttons")
-                                                    label.btn.btn-outline-primary.active="10 min"
-                                                        input#10minbutton(type="radio", name="minutesToSet", checked)
+                                                .btn-group.btn-group-toggle#minutesInput(data-toggle="buttons")
                                                     label.btn.btn-outline-primary="30 min"
-                                                        input#30minbutton(type="radio", name="minutesToSet")
+                                                        input(type="radio", name="minutesToSet", value="30")
                                                     label.btn.btn-outline-primary="60 min"
-                                                        input#60minbutton(type="radio", name="minutesToSet")
-                                                    label.btn.btn-outline-primary="infinite"
-                                                        input#infiniteminbutton(type="radio", name="minutesToSet")
-                                                    //- label.btn.btn-outline-primary="custom"
-                                                    //-     input#infiniteminbutton(type="radio", name="minutesToSet")
-                                                    button.btn.btn-outline-primary(data-toggle="collapse", data-target="#customMinutesCollapse")="Custom"
-                                                        input#infiniteminbutton(type="radio", name="minutesToSet")
-                                        .row
+                                                        input(type="radio", name="minutesToSet", value="60")
+                                                    label.btn.btn-outline-primary.active="infinite"
+                                                        input(type="radio", name="minutesToSet", value="-1", checked)
+                                                    button.btn.btn-outline-primary="custom"
+                                                        input(type="radio", name="minutesToSet", value="0")
+                                        .row#customMinutesInputContainer
                                             .col
-                                                .collapse#customMinutesCollapse
-                                                    .row
-                                                        .col-sm-3
-                                                        .col-sm-6
-                                                            .input-group(style="margin-top:15px;")
-                                                                input.form-control(placeholder="Add custom time")
-                                                                .input-group-append
-                                                                    //- button.btn.btn-outline-primary="Add"
-                                                                    select.btn.btn-outline-primary.custom-select
-                                                                        option(value="0" selected)="Minutes"
-                                                                        option(value="0")="Hours"
+                                                .row
+                                                    .col-sm-3
+                                                    .col-sm-6
+                                                        .input-group(style="margin-top:15px;")
+                                                            input.form-control#customMinutesInput(placeholder="Add custom time")
+                                                            .input-group-append
+                                                                //- button.btn.btn-outline-primary="Add"
+                                                                select.btn.btn-outline-primary.custom-select
+                                                                    option(value="m" selected)="Minutes"
+                                                                    option(value="h")="Hours"
                                                         
                                 .card.is-running
                                     .card-body
                                         .row.align-items-center.text-center
                                             .col
-                                                .pie-wrapper.progress-70
-                                                    span.label="10"
+                                                .pie-wrapper.progress-70#circleProgressPercent
+                                                    span.label#circleMinutesLeftValue="0"
                                                     .pie
                                                         .left-side.half-circle
                                                         .right-side.half-circle

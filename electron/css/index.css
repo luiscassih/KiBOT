@@ -10,6 +10,10 @@ body {
 }
 .navbar {
     position: fixed;
+    width: 100%;
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+    padding-top: 20px;
 }
 #statusBtnStart {
     width: 250px;
@@ -45,6 +49,9 @@ body {
     color: white !important;
 }
 
+#customMinutesInput {
+    /* width: 150px; */
+}
 
 /* Electron */
 
