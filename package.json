@@ -1,10 +1,11 @@
 {
-  "name": "KiBOT",
+  "name": "kibot",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icon.icns --prune=true --tmpdir=/Users/l/tmppp/out"
   },
   "author": "Luis Cassih",
   "license": "MIT",
@@ -15,6 +16,7 @@
     "robotjs": "^0.4.7"
   },
   "devDependencies": {
-    "electron": "^1.8.1"
+    "electron": "^1.8.1",
+    "electron-packager": "^10.1.1"
   }
 }

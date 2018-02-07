@@ -9,17 +9,27 @@ TypingStatus = {
 
 $(document).ready(() => {
     var currentStatus = TypingStatus.IDLE
-    let data = {
-        action: "getStatus"
-    }
     var setCircleProgress = true
     var circleHighestMinute = 0
+    var customTitles = []
 
     // Initializations
     $(".is-running").hide()
+    $("#customMinutesInputContainer").hide()
+    $("#stringToPress").hide()
+    $("#appVersion").html(" ver " + electron.remote.app.getVersion())
+    
 
     // Getting status
-    ipcRenderer.send("action", JSON.stringify(data))
+    ipcRenderer.send("action",  {action: "getStatus"})
+    ipcRenderer.send("action", { action: "getCustomTitles"})
+    ipcRenderer.on("setCustomTitles", (event, args) => {
+        customTitles = args["titles"]
+        console.log("Setting up custom titles: " + customTitles)
+        document.title = customTitles[0]
+        fillCustomTitles(customTitles)
+    })
+
     ipcRenderer.on("setStatus", (event, args) => {
         currentStatus = args["status"]
         minutes = args["minutes"]
@@ -51,6 +61,8 @@ $(document).ready(() => {
             case TypingStatus.IDLE : {
                 $("#statusBtnStop").prop("disabled", true)
                 $("#statusBtnStart").html("RUN")
+                $("#statusBtnStart").addClass("btn-success")
+                $("#statusBtnStart").removeClass("btn-primary")
                 setCircleProgress = true;
 
                 $(".is-running").slideUp(200, () => {
@@ -66,6 +78,8 @@ $(document).ready(() => {
     })
 
     $("#statusBtnStart").click(() => {
+
+        // Getting minutes to set
         minutesToSet = $("input[name=minutesToSet]:checked").val()
         if(isNaN(minutesToSet))
             minutesToSet = -1
@@ -75,28 +89,35 @@ $(document).ready(() => {
                 customMinutes = -1
             minutesToSet = parseInt(customMinutes)
         }
+
+        // Getting key to press
+        key = $("#keyToPress").val()
+        if (key == "custom") {
+            key = $("#stringToPress").val()
+            if (key == "")
+                key = "a"
+        }
+
         let data = {
             action: (currentStatus == TypingStatus.TYPING) ? "pause" : "start",
-            minutes: minutesToSet
+            minutes: minutesToSet,
+            keyToPress: key,
+            titles: customTitles
         }
-        ipcRenderer.send("action", JSON.stringify(data))
+        ipcRenderer.send("action", data)
         $(this).prop("disabled", true)
         $("#statusBtnStop").prop("disabled", false)
-    });
+    })
 
     $("#statusBtnStop").click(() => {
         let data = {
             action: "stop"
         }
-        ipcRenderer.send("action", JSON.stringify(data))
+        ipcRenderer.send("action", data)
         $(this).prop("disabled", true)
         $("#statusBtnStart").prop("disabled", false)
 
     })
-
-
-    // Minutes inputs
-    $("#customMinutesInputContainer").hide()
 
     $("input[name=minutesToSet]").change(()=> {
         let minutes = $('input[name=minutesToSet]:checked').val()
@@ -107,6 +128,31 @@ $(document).ready(() => {
         } else {
             $("#customMinutesInputContainer").slideUp(200)
         }
+    })
+
+    $("select#keyToPress").change(() => {
+        let keyToPress = $("select#keyToPress").val()
+        console.log("key: " + keyToPress)
+        if (keyToPress == "custom") {
+            $("#stringToPress").slideDown(200, () => {
+                $("#stringToPress").focus()
+            })
+        } else {
+            $("#stringToPress").slideUp(200)
+        }
+    })
+
+    $("#addCustomTitleToList").click(() => {
+        let t = $("#customTitleToList").val()
+        console.log("Addming "+ t + "to list")
+        customTitles.push(t)
+        addCustomTitleToList(t)
+    })
+
+    $(".customTitleRemove").click(() => {
+        console.log("TUVIEJA")
+        removeCustomTitleFromList()
+        // ipcRenderer.send("action", {action: ""})
     })
 
     function updateCircleMinutes(minutes) {
@@ -126,5 +172,19 @@ $(document).ready(() => {
             $("#circleProgressPercent").addClass("progress-"+circlePercent)
         
         }
+    }
+
+
+    function fillCustomTitles(customTitles) {
+        $("#customTitles").html("")
+        customTitles.forEach(t => addCustomTitleToList(t))
+    }
+
+    function addCustomTitleToList(title) {
+        $("#customTitles").append('<div class="row eachTitleContainer"><div class="col eachTitle">' + title + '</div><div class="col"><button class="btn btn-danger customTitleRemove">REMOVE</button></div></div>')
+    }
+
+    function removeCustomTitleFromList(that) {
+        debugger
     }
 });

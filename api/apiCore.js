@@ -6,11 +6,12 @@ module.exports = function(that) {
         "PAUSED" : 2
     }
     var currentStatus = this.TypingStatus.IDLE
-    var minutesLeft = 0;
+    var minutesLeft = 0
     var feedback = false
+    var keyToPress = "a"
 
-    this.start = async (minutes, feedback) => {
-        console.log("started typing for " + minutes + " minutes");
+    this.start = async (minutes, key,  feedback) => {
+        console.log("started typing for " + minutes + " minutes with key: " + key.toLowerCase());
 
         if (!isNaN(minutes)) {
             if(minutes == -1) 
@@ -18,6 +19,7 @@ module.exports = function(that) {
             else if(minutes !=0)
                 minutesLeft = ++minutes
         }
+        keyToPress = key
 
         currentStatus = this.TypingStatus.TYPING;
         while (currentStatus == this.TypingStatus.TYPING) {
@@ -37,8 +39,8 @@ module.exports = function(that) {
                         minutesLeft++
                     break;
                 }
-                // robot.keyTap("control");
-                robot.typeString("a");
+
+                this.pressKey()
 
                 /* We still have a bug with this sleep, if the user pause and resume several times
                 in a really short lapse of time while this is sleeping it will cause to re-write the
@@ -50,11 +52,23 @@ module.exports = function(that) {
         }
 
         if (minutesLeft == 0) {
-            console.log("asdasd")
             currentStatus = this.TypingStatus.IDLE;
         }
 
         console.log("stopped typing");
+    }
+
+    this.pressKey = () => {
+        console.log("Pressing " + keyToPress)
+        switch (keyToPress) {
+            case "control":
+            case "command":
+            case "alt":
+                robot.keyTap(keyToPress)
+                break
+            default:
+                robot.typeString(keyToPress)
+        }
     }
 
     this.sleep = (ms) => {

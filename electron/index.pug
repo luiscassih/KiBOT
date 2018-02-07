@@ -1,6 +1,5 @@
 html
     head
-        title="Development"
         meta(name="viewport", content="width=device-width, initial-scale=1")
         link(rel="stylesheet", href="lib/bootstrap/css/bootstrap.min.css")
         link(rel="stylesheet", href="css/index.css")
@@ -12,7 +11,7 @@ html
     body.bg-dark
         nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
             a(href="#").navbar-brand="KiBOT" 
-                small.text-muted=" ver "
+                small.text-muted#appVersion=" ver 1.0.0"
         .main-container.scroll-wrapper
             .container-fluid
                 .row.justify-content-md-center
@@ -49,7 +48,7 @@ html
                                                             .input-group-append
                                                                 //- button.btn.btn-outline-primary="Add"
                                                                 select.btn.btn-outline-primary.custom-select
-                                                                    option(value="m" selected)="Minutes"
+                                                                    option(value="m", selected)="Minutes"
                                                                     option(value="h")="Hours"
                                                         
                                 .card.is-running
@@ -84,19 +83,24 @@ html
                                     .row
                                         .col-xl-12
                                             ul.list-group
-                                                li.list-group-item.active.text-center="Custom Key to Press"
+                                                li.list-group-item.active.text-center="Key to Press"
                                                 li.list-group-item
-                                                    .input-group
-                                                        input.form-control.text-center(disabled,value="CONTROL")
-                                                        .input-group-append
-                                                            button.btn.btn-primary="SET KEY"
+                                                    select.btn.btn-primary#keyToPress
+                                                        option(value="control", selected)="Control"
+                                                        option(value="command")="Command (OSX)"
+                                                        option(value="alt")="Alt"
+                                                        option(value="custom")="Custom String"
+                                                    input.form-control.text-center#stringToPress(value="customString")
                                 .col-md-8
-                                    ul.list-group
-                                        li.list-group-item.active.text-center="Customize Window Process"
+                                    ul.list-group#customTitlesContainer
+                                        li.list-group-item.active.text-center="Customize Window Title"
                                         li.list-group-item
                                             .input-group
-                                                input.form-control(placeholder="Add custom process title")
-                                                input.form-control(placeholder="Custom window title")
+                                                input.form-control#customTitleToList(placeholder="Add custom process title")
                                                 .input-group-append
-                                                    button.btn.btn-outline-primary="Add"
-                                        li.list-group-item="Development"
+                                                    button.btn.btn-outline-primary#addCustomTitleToList="Add"
+                                        li.list-group-item#customTitles
+                                            .row.eachTitleContainer
+                                                .col.eachTitle="Title"
+                                                .col
+                                                    button.btn.btn-danger.customTitleRemove="REMOVE"

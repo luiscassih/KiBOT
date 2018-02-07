@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var url = require("url");
 var path = require("path");
+var fs = require("fs")
 const electron = require('electron');
 const {ipcMain} = require('electron');
 const pug = require("pug");
@@ -27,6 +28,26 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 app.use(express.static("public"));
 
+// Initialize custom titles savefile
+var customTitles = ["UserManager.java | IntelliJ"]
+fs.exists("customtitles.txt", (exists) => {
+    if (exists)
+        customTitles = JSON.parse(fs.readFileSync("customtitles.txt").toString().split("\n"))
+    else {
+        saveTitlesToFile(customTitles)
+        console.log("Successfully initialized customtitles.txt")   
+    }
+})
+
+function saveTitlesToFile(titles) {
+    fs.writeFile("customtitles.txt", JSON.stringify(titles) , { flag: "w"}, (err) => {
+        if (err) throw err         
+    })
+}
+
+// customtitles.forEach(t => {
+//     console.log("titles xD: " + t)
+// });
 
 // Loading API controllers
 var apiCore = require("./api/apiCore");
@@ -55,9 +76,8 @@ electron.app.on("ready", function() {
         width: 840,
         minWidth: 480,
         height: 730,
-        title: "KiBOT",
-        center: true,
-        titleBarStyle: "hidden"
+        center: true
+        // titleBarStyle: "hidden"
     }
     win = new BrowserWindow(windowOptions);
     win.loadURL(url.format({
@@ -67,17 +87,22 @@ electron.app.on("ready", function() {
     }));
 });
 
+electron.app.on('window-all-closed', () => {
+    electron.app.quit()
+})
+
 // ipc listeners
-ipcMain.on("action", (event, args) => {
-    var data = JSON.parse(args)
+ipcMain.on("action", (event, data) => {
     switch(data["action"]) {
         case "start" : {
             if (api.getCurrentStatus() != api.TypingStatus.TYPING) {
                 let minutes = data["minutes"]
-                console.log("Status?? " + api.getCurrentStatus())
-
+                let key = data["keyToPress"]
+                customTitles = data["titles"]
+                console.log("Titles received: " + data["titles"])
+                saveTitlesToFile(customTitles)
                 // So let's begin
-                api.start(minutes, true)
+                api.start(minutes, key, true)
 
                 event.sender.send("setStatus", {status: api.getCurrentStatus(), minutes: api.getMinutesLeft()})
             } else console.log("Already started")
@@ -103,9 +128,20 @@ ipcMain.on("action", (event, args) => {
             event.sender.send("setStatus", data)
             break
         }
+        case "getCustomTitles" : {
+            let data = {
+                titles: customTitles
+            }
+            event.sender.send("setCustomTitles", data)
+            break
+        }
     }
 })
 
 function sendMinutesLeft(minutes) {
     win.webContents.send("updateMinutes", minutes)
+}
+
+function setWindowTitle(title) {
+    win.setTitle(title)
 }

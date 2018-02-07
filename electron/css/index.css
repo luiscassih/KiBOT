@@ -53,7 +53,34 @@ body {
     /* width: 150px; */
 }
 
-/* Electron */
+#keyToPress {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.customTitleRemove {
+    font-size: 0.7em;
+    float: right; 
+    opacity: 0;
+    -webkit-transition:.5s;
+    -moz-transition:.5s;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    transition:.5s;
+}
+.eachTitleContainer:hover > .col > .customTitleRemove{
+    opacity: 1;
+}
+.eachTitleContainer {
+    padding: 5px;
+}
+
+/* 
+============================
+Electron 
+============================ 
+*/
 
 /* Scroll-wrapper */
 
