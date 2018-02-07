@@ -9,6 +9,7 @@ module.exports = function(that) {
     var minutesLeft = 0
     var feedback = false
     var keyToPress = "a"
+    var autoClickEnabled = false
 
     this.start = async (minutes, key,  feedback) => {
         console.log("started typing for " + minutes + " minutes with key: " + key.toLowerCase());
@@ -31,9 +32,10 @@ module.exports = function(that) {
             if (that != undefined && that.sendMinutesLeft != undefined && minutesLeft != -1)
                 that.sendMinutesLeft(minutesLeft)
 
-            var clicksThisMinute = Math.floor( Math.random() * (40 - 10) + 10 );
-            console.log("clicking " + clicksThisMinute + " this minute");
-            for (var j = 0; j<clicksThisMinute; j++) {
+            var keysThisMinute = Math.floor( Math.random() * (40 - 10) + 10 );
+            var clickedThisMinute = 0
+            console.log("typing " + keysThisMinute + " this minute");
+            for (var j = 0; j<keysThisMinute; j++) {
                 if (currentStatus != this.TypingStatus.TYPING || minutesLeft == 0) {
                     if(currentStatus == this.TypingStatus.PAUSED && minutesLeft != 0)
                         minutesLeft++
@@ -41,14 +43,18 @@ module.exports = function(that) {
                 }
 
                 this.pressKey()
+                if (autoClickEnabled &&  Math.floor(Math.random() * 2) == 1) {
+                    clickedThisMinute++
+                    robot.mouseClick()
+                }
 
                 /* We still have a bug with this sleep, if the user pause and resume several times
                 in a really short lapse of time while this is sleeping it will cause to re-write the
                 status and have multiple instances of typing, so it will type really fast
                 */
-                await this.sleep(60000/clicksThisMinute);
+                await this.sleep(60000/keysThisMinute);
             }
-            
+            console.log("clicked " + clickedThisMinute + " this minute")
         }
 
         if (minutesLeft == 0) {
@@ -87,6 +93,11 @@ module.exports = function(that) {
 
     this.getMinutesLeft = () => {
         return minutesLeft
+    }
+
+    this.setAutoClickEnabled = (enabled) => {
+        autoClickEnabled = enabled
+        console.log("Autoclick enabled: " + autoClickEnabled)
     }
 }
 

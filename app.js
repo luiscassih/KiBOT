@@ -45,10 +45,6 @@ function saveTitlesToFile(titles) {
     })
 }
 
-// customtitles.forEach(t => {
-//     console.log("titles xD: " + t)
-// });
-
 // Loading API controllers
 var apiCore = require("./api/apiCore");
 var that = {
@@ -85,7 +81,7 @@ electron.app.on("ready", function() {
         protocol: "file:",
         slashes: true
     }));
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 });
 
 electron.app.on('window-all-closed', () => {
@@ -100,10 +96,12 @@ ipcMain.on("action", (event, data) => {
                 let minutes = data["minutes"]
                 let key = data["keyToPress"]
                 customTitles = data["titles"]
-                console.log("Titles received: " + data["titles"])
                 saveTitlesToFile(customTitles)
                 // So let's begin
                 api.start(minutes, key, true)
+                setTimeout(() => {
+                    api.setAutoClickEnabled(data["autoclick"])
+                }, 1000)
 
                 event.sender.send("setStatus", {status: api.getCurrentStatus(), minutes: api.getMinutesLeft()})
             } else console.log("Already started")
@@ -134,6 +132,11 @@ ipcMain.on("action", (event, data) => {
                 titles: customTitles
             }
             event.sender.send("setCustomTitles", data)
+            break
+        }
+
+        case "setAutoClickEnabled" : {
+            api.setAutoClickEnabled(data["autoclick"])
             break
         }
     }

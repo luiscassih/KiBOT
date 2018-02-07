@@ -13,6 +13,7 @@ $(document).ready(() => {
     var circleHighestMinute = 0
     var customTitles = []
     var currentTitle = "KiBOTXD"
+    var autoClickEnabled = false
 
     // Initializations
     $(".is-running").hide()
@@ -23,8 +24,8 @@ $(document).ready(() => {
     
 
     // Getting status
-    ipcRenderer.send("action",  {action: "getStatus"})
-    ipcRenderer.send("action", { action: "getCustomTitles"})
+    ipcRenderer.send("action", {action: "getStatus"})
+    ipcRenderer.send("action", {action: "getCustomTitles"})
     ipcRenderer.on("setCustomTitles", (event, args) => {
         customTitles = args["titles"]
         console.log("Setting up custom titles: " + customTitles)
@@ -104,7 +105,8 @@ $(document).ready(() => {
             action: (currentStatus == TypingStatus.TYPING) ? "pause" : "start",
             minutes: minutesToSet,
             keyToPress: key,
-            titles: customTitles
+            titles: customTitles,
+            autoclick: autoClickEnabled
         }
         ipcRenderer.send("action", data)
         $(this).prop("disabled", true)
@@ -142,6 +144,12 @@ $(document).ready(() => {
         } else {
             $("#stringToPress").slideUp(200)
         }
+    })
+
+    $("input[name=enableAutoClick]").change(()=> {
+        let enabled = $('input[name=enableAutoClick]:checked').val()
+        autoClickEnabled = (enabled == "1") ? true : false
+        ipcRenderer.send("action", {action: "setAutoClickEnabled", autoclick: autoClickEnabled})
     })
 
     $("#addCustomTitleToList").click(() => {

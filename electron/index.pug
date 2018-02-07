@@ -76,10 +76,10 @@ html
                                                 li.list-group-item.active.text-center="Enable window autoclick"
                                                 li.list-group-item.text-center
                                                     .btn-group.btn-group-toggle(data-toggle="buttons")
-                                                        label.btn.btn-outline-primary.active="enabled"
-                                                            input#enabledAltTab(type="radio", name="enableAutoClick", checked)
-                                                        label.btn.btn-outline-primary="disabled"
-                                                            input#enabledAlt(type="radio", name="enableAutoClick")
+                                                        label.btn.btn-outline-primary="enabled"
+                                                            input(type="radio", name="enableAutoClick" value="1")
+                                                        label.btn.btn-outline-primary.active="disabled"
+                                                            input(type="radio", name="enableAutoClick", value="0", checked)
                                     .row
                                         .col-xl-12
                                             ul.list-group
