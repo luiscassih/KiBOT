@@ -74,6 +74,7 @@ body {
 }
 .eachTitleContainer {
     padding: 5px;
+    word-wrap: break-word;
 }
 
 /* 
