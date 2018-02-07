@@ -1,1 +1,1 @@
-["UserManager.java | IntelliJ","asd"]
+["UserManager.java | IntelliJ"]

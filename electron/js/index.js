@@ -12,12 +12,14 @@ $(document).ready(() => {
     var setCircleProgress = true
     var circleHighestMinute = 0
     var customTitles = []
+    var currentTitle = "KiBOTXD"
 
     // Initializations
     $(".is-running").hide()
     $("#customMinutesInputContainer").hide()
     $("#stringToPress").hide()
     $("#appVersion").html(" ver " + electron.remote.app.getVersion())
+    randomizeTitles()
     
 
     // Getting status
@@ -144,15 +146,19 @@ $(document).ready(() => {
 
     $("#addCustomTitleToList").click(() => {
         let t = $("#customTitleToList").val()
-        console.log("Addming "+ t + "to list")
-        customTitles.push(t)
-        addCustomTitleToList(t)
+        $("#customTitleToList").val("").focus()
+        if (t != "") {
+            customTitles.push(t)
+            addCustomTitleToList(t)
+        }
     })
 
-    $(".customTitleRemove").click(() => {
-        console.log("TUVIEJA")
-        removeCustomTitleFromList()
-        // ipcRenderer.send("action", {action: ""})
+    $("#customTitles").on("click", ".customTitleRemove", (ev) => {
+        removeCustomTitleFromList(ev.currentTarget)
+        let title = $(ev.currentTarget).parent().parent().find(".eachTitle").html()
+        let i = customTitles.indexOf(title)
+        if (i != -1)
+            customTitles.splice(i, 1)
     })
 
     function updateCircleMinutes(minutes) {
@@ -185,6 +191,24 @@ $(document).ready(() => {
     }
 
     function removeCustomTitleFromList(that) {
-        debugger
+        let el = $(that).parent().parent()
+        el.fadeOut(200, () => {
+            $(el).remove()
+        })
+    }
+
+    function randomizeTitles(){
+        let size = customTitles.length
+        if (size > 0) {
+            if (size == 1)
+                document.title = customTitles[0]
+            else {
+                let newTitle = customTitles[Math.floor(Math.random() * size)]
+                while (newTitle == document.title)
+                    newTitle = customTitles[Math.floor(Math.random() * size)]
+                document.title = newTitle
+            }
+        }
+        setTimeout(randomizeTitles, 3 * 60 * 1000)
     }
 });

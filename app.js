@@ -85,6 +85,7 @@ electron.app.on("ready", function() {
         protocol: "file:",
         slashes: true
     }));
+    win.webContents.openDevTools();
 });
 
 electron.app.on('window-all-closed', () => {
