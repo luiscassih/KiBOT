@@ -55,17 +55,15 @@ module.exports = function(that) {
                 await this.sleep(60000/keysThisMinute);
             }
             console.log("clicked " + clickedThisMinute + " this minute")
+            if (minutesLeft == 0) {
+                currentStatus = this.TypingStatus.IDLE;
+                that.sendStatusStopped()
+            }
         }
-
-        if (minutesLeft == 0) {
-            currentStatus = this.TypingStatus.IDLE;
-        }
-
         console.log("stopped typing");
     }
 
     this.pressKey = () => {
-        console.log("Pressing " + keyToPress)
         switch (keyToPress) {
             case "control":
             case "command":
@@ -100,5 +98,3 @@ module.exports = function(that) {
         console.log("Autoclick enabled: " + autoClickEnabled)
     }
 }
-
-

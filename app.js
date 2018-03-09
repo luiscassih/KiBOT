@@ -48,7 +48,8 @@ function saveTitlesToFile(titles) {
 // Loading API controllers
 var apiCore = require("./api/apiCore");
 var that = {
-    sendMinutesLeft: sendMinutesLeft
+    sendMinutesLeft: sendMinutesLeft,
+    sendStatusStopped: sendStatusStopped
 }
 var api = new apiCore(that);
 
@@ -58,10 +59,10 @@ apiRest.controller(app, api);
 index.controller(app);
 
 
-// Starting server
-app.listen(app.get("port"), function(){
-    console.log("Server listen on port " + app.get("port"));
-});
+// Starting server - Disabled for the moment
+// app.listen(app.get("port"), function(){
+//     console.log("Server listen on port " + app.get("port"));
+// });
 
 
 
@@ -144,6 +145,10 @@ ipcMain.on("action", (event, data) => {
 
 function sendMinutesLeft(minutes) {
     win.webContents.send("updateMinutes", minutes)
+}
+
+function sendStatusStopped() {
+    win.webContents.send("setStatus", {status: api.TypingStatus.IDLE})
 }
 
 function setWindowTitle(title) {

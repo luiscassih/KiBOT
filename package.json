@@ -6,7 +6,7 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "package-mac": "electron-packager . --overwrite --asar=true--platform=darwin --arch=x64 --icon=icon.icns --prune=true --tmpdir=/Users/l/tmppp/out",
-    "package-linux": "electron-packager . java --overwrite --asar=true --platform=linux --arch=x64 --icon=icon.png --prune=true --out=out/"
+    "package-linux": "electron-packager . java --overwrite --asar=true --platform=linux --arch=x64 --icon=icon.png --prune=true --out=out/ --tmpdir=/Users/l/tmpp/outlinux"
   },
   "author": "Luis Cassih",
   "license": "MIT",

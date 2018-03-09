@@ -88,8 +88,12 @@ $(document).ready(() => {
             minutesToSet = -1
         if (minutesToSet == 0) {
             let customMinutes = $("#customMinutesInput").val()
-            if (!isNaN)
+            if (isNaN(customMinutes)) {
                 customMinutes = -1
+            } else {
+                if ( $("#minutes-hours-select").val() == "h")
+                    customMinutes *= 60
+            }
             minutesToSet = parseInt(customMinutes)
         }
 
