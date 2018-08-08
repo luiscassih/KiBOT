@@ -29,18 +29,19 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 
 // Initialize custom titles savefile
+var customTitlesPath = '/tmp/kibot-customtitles.txt';
 var customTitles = ["UserManager.java | IntelliJ"]
-fs.exists("customtitles.txt", (exists) => {
+fs.exists(customTitlesPath, (exists) => {
     if (exists)
-        customTitles = JSON.parse(fs.readFileSync("customtitles.txt").toString().split("\n"))
+        customTitles = JSON.parse(fs.readFileSync(customTitlesPath).toString().split("\n"))
     else {
         saveTitlesToFile(customTitles)
-        console.log("Successfully initialized customtitles.txt")   
+        console.log("Successfully initialized /tmp/customtitles.txt ")   
     }
 })
 
 function saveTitlesToFile(titles) {
-    fs.writeFile("customtitles.txt", JSON.stringify(titles) , { flag: "w"}, (err) => {
+    fs.writeFile(customTitlesPath, JSON.stringify(titles) , { flag: "w"}, (err) => {
         if (err) throw err         
     })
 }
